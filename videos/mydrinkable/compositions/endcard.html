@@ -1,0 +1,169 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      font-family: "Nunito", sans-serif;
+    }
+    #end-wave {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 2200px;
+    }
+    #end-logo {
+      position: absolute;
+      left: 280px;
+      top: 210px;
+      width: 520px;
+      height: 520px;
+    }
+    #end-logo img {
+      width: 520px;
+      height: 520px;
+      display: block;
+      filter: drop-shadow(0 24px 40px rgba(80, 50, 0, 0.35));
+    }
+    #end-slogan {
+      position: absolute;
+      left: 60px;
+      right: 60px;
+      top: 770px;
+      text-align: center;
+      color: #0b3a8c;
+      font-size: 84px;
+      font-weight: 900;
+      line-height: 1.04;
+      letter-spacing: -0.015em;
+    }
+    #end-slogan span {
+      display: inline-block;
+    }
+    #end-sub {
+      position: absolute;
+      left: 60px;
+      right: 60px;
+      top: 980px;
+      text-align: center;
+      color: #0b3a8c;
+      font-size: 40px;
+      font-weight: 800;
+    }
+    #end-url {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 1080px;
+      text-align: center;
+    }
+    #end-url span {
+      display: inline-block;
+      background: #0b3a8c;
+      color: #ffffff;
+      font-size: 52px;
+      font-weight: 900;
+      padding: 18px 48px;
+      border-radius: 999px;
+      box-shadow: 0 16px 30px rgba(11, 58, 140, 0.35);
+    }
+    #end-phone {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 1210px;
+      text-align: center;
+      color: #0b3a8c;
+      font-size: 42px;
+      font-weight: 800;
+    }
+    #end-phone span {
+      display: inline-block;
+    }
+  </style>
+  <div id="root" data-composition-id="endcard" data-width="1080" data-height="1920">
+    <svg id="end-wave" viewBox="0 0 1080 2200" data-layout-ignore>
+      <path id="end-wave-path" d="" fill="#f6c21c" />
+    </svg>
+    <div id="end-logo" class="clip" data-start="0.35" data-duration="3.05">
+      <img id="end-logo-img" src="assets/logo.webp" alt="Logo Mydrinkable" />
+    </div>
+    <div id="end-slogan" class="clip" data-start="0.55" data-duration="2.85">
+      <span id="end-s1">La nature</span><br /><span id="end-s2">dans une cannette.</span>
+    </div>
+    <div id="end-sub" class="clip" data-start="0.85" data-duration="2.55">
+      <span id="end-sub-in">100% fruits · 0% chimie · 100% Cameroun</span>
+    </div>
+    <div id="end-url" class="clip" data-start="1" data-duration="2.4">
+      <span id="end-url-in">www.mydrinkable.com</span>
+    </div>
+    <div id="end-phone" class="clip" data-start="1.15" data-duration="2.25">
+      <span id="end-phone-in">WhatsApp +237 652 441 602</span>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var path = document.getElementById("end-wave-path");
+      function wave(top, t) {
+        var d = "M0 " + (top + Math.sin(t * 6) * 30).toFixed(1);
+        for (var x = 0; x <= 1080; x += 40) {
+          var y = top + Math.sin(x / 140 + t * 6) * 30 + Math.sin(x / 61 - t * 4) * 12;
+          d += " L" + x + " " + y.toFixed(1);
+        }
+        d += " L1080 2200 L0 2200 Z";
+        path.setAttribute("d", d);
+      }
+      var w = { level: 2000, t: 0 };
+      var tl = gsap.timeline({ paused: true });
+      tl.fromTo(
+        w,
+        { level: 2000, t: 0 },
+        {
+          level: -120,
+          t: 1.2,
+          duration: 0.6,
+          ease: "power3.inOut",
+          onUpdate: function () {
+            wave(w.level, w.t);
+          },
+        },
+        0,
+      );
+      wave(2000, 0);
+
+      tl.fromTo(
+        "#end-logo-img",
+        { scale: 0.3, rotation: -25, y: 260, opacity: 0 },
+        { scale: 1, rotation: 0, y: 0, opacity: 1, duration: 0.7, ease: "back.out(1.6)" },
+        0.35,
+      );
+      tl.fromTo("#end-logo-img", { scale: 1 }, { scale: 1.03, duration: 2.2, ease: "none", immediateRender: false }, 1.05);
+      tl.fromTo(
+        ["#end-s1", "#end-s2"],
+        { y: 70, opacity: 0, filter: "blur(10px)" },
+        { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "power4.out", stagger: 0.12 },
+        0.55,
+      );
+      tl.fromTo(
+        "#end-sub-in",
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" },
+        0.85,
+      );
+      tl.fromTo(
+        "#end-url-in",
+        { scale: 0.6, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2)" },
+        1.0,
+      );
+      tl.fromTo(
+        "#end-phone-in",
+        { y: 24, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" },
+        1.15,
+      );
+
+      window.__timelines["endcard"] = tl;
+    })();
+  </script>
+</template>

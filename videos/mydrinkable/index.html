@@ -1,0 +1,117 @@
+<!doctype html>
+<html
+  lang="fr"
+  data-composition-variables='[
+    {"id":"brandBlue","type":"color","label":"Bleu de la marque","default":"#0b3a8c"},
+    {"id":"brandYellow","type":"color","label":"Jaune de la marque","default":"#f6c21c"}
+  ]'
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      :root {
+        --brandBlue: #0b3a8c;
+        --brandYellow: #f6c21c;
+        --ink: #ffffff;
+        --font-display: "Nunito", sans-serif;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #06235a;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        font-family: var(--font-display);
+        overflow: hidden;
+      }
+      #stage-ground {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(60% 38% at 50% 52%, rgba(246, 194, 28, 0.22) 0%, rgba(246, 194, 28, 0) 70%),
+          radial-gradient(120% 80% at 50% 45%, #1450b4 0%, var(--brandBlue) 45%, #051d4d 100%);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="20"
+      data-width="1080"
+      data-height="1920"
+    >
+      <div id="stage-ground"></div>
+
+      <div
+        id="spin"
+        data-composition-id="spin"
+        data-composition-src="compositions/spin.html"
+        data-start="0"
+        data-duration="9.6"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1080"
+        data-height="1920"
+        style="z-index: 1"
+      ></div>
+
+      <div
+        id="open"
+        data-composition-id="open"
+        data-composition-src="compositions/open.html"
+        data-start="9.4"
+        data-duration="2.9"
+        data-track-index="2"
+        data-track-kind="graphics"
+        data-width="1080"
+        data-height="1920"
+        style="z-index: 2"
+      ></div>
+
+      <div
+        id="pour"
+        data-composition-id="pour"
+        data-composition-src="compositions/pour.html"
+        data-start="12"
+        data-duration="5.2"
+        data-track-index="3"
+        data-track-kind="graphics"
+        data-width="1080"
+        data-height="1920"
+        style="z-index: 3"
+      ></div>
+
+      <div
+        id="endcard"
+        data-composition-id="endcard"
+        data-composition-src="compositions/endcard.html"
+        data-start="16.6"
+        data-duration="3.4"
+        data-track-index="4"
+        data-track-kind="graphics"
+        data-width="1080"
+        data-height="1920"
+        style="z-index: 4"
+      ></div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

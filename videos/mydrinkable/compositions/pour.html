@@ -1,0 +1,302 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      font-family: "Nunito", sans-serif;
+    }
+    #pour-world {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      transform: translateY(110px);
+    }
+    #pour-glass-svg,
+    #pour-stream-svg {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+    }
+    #pour-can {
+      position: absolute;
+      left: 325.5px;
+      top: 541px;
+      width: 359.5px;
+      height: 528.5px;
+      transform-origin: 174.5px 59px;
+    }
+    #pour-can img {
+      width: 359.5px;
+      height: 528.5px;
+      display: block;
+      filter: drop-shadow(0 30px 40px rgba(0, 8, 35, 0.45));
+    }
+    .pour-line {
+      position: absolute;
+      left: 80px;
+      font-size: 64px;
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+    .pour-line b {
+      display: inline-block;
+      width: 58px;
+      height: 58px;
+      margin-right: 18px;
+      vertical-align: -6px;
+      border-radius: 50%;
+      background: #f6c21c;
+      color: #0b3a8c;
+      font-size: 40px;
+      line-height: 58px;
+      text-align: center;
+    }
+    #pour-l1 {
+      top: 190px;
+    }
+    #pour-l2 {
+      top: 272px;
+    }
+    .pour-line span {
+      display: inline-block;
+    }
+  </style>
+  <div id="root" data-composition-id="pour" data-width="1080" data-height="1920">
+    <div id="pour-world">
+    <svg id="pour-glass-svg" viewBox="0 0 1080 1920" data-layout-ignore>
+      <defs>
+        <clipPath id="pour-inside">
+          <path d="M352 826 L728 826 L694 1262 Q692 1272 682 1272 L398 1272 Q388 1272 386 1262 Z" />
+        </clipPath>
+        <linearGradient id="pour-juice" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#e0a40a" />
+          <stop offset="0.35" stop-color="#f9cf2c" />
+          <stop offset="0.6" stop-color="#ffe066" />
+          <stop offset="1" stop-color="#d99a08" />
+        </linearGradient>
+        <linearGradient id="pour-glassfill" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#ffffff" stop-opacity="0.22" />
+          <stop offset="0.25" stop-color="#ffffff" stop-opacity="0.06" />
+          <stop offset="0.75" stop-color="#ffffff" stop-opacity="0.04" />
+          <stop offset="1" stop-color="#ffffff" stop-opacity="0.18" />
+        </linearGradient>
+      </defs>
+      <g id="pour-glass">
+        <ellipse cx="540" cy="1316" rx="230" ry="26" fill="rgba(0,8,35,0.45)" />
+        <path
+          d="M338 818 L742 818 L704 1286 Q700 1306 680 1306 L400 1306 Q380 1306 376 1286 Z"
+          fill="url(#pour-glassfill)"
+        />
+        <g clip-path="url(#pour-inside)">
+          <rect id="pour-liquid" x="330" y="1272" width="420" height="10" fill="url(#pour-juice)" />
+          <ellipse id="pour-foam" cx="540" cy="1272" rx="200" ry="10" fill="#fff6c8" opacity="0" />
+          <g id="pour-bubbles"></g>
+        </g>
+        <path
+          d="M338 818 L742 818 L704 1286 Q700 1306 680 1306 L400 1306 Q380 1306 376 1286 Z"
+          fill="none"
+          stroke="rgba(255,255,255,0.75)"
+          stroke-width="6"
+          stroke-linejoin="round"
+        />
+        <path d="M376 1272 L704 1272" stroke="rgba(255,255,255,0.35)" stroke-width="4" />
+        <path d="M372 850 L346 1180" stroke="rgba(255,255,255,0.55)" stroke-width="10" stroke-linecap="round" />
+        <path d="M700 860 L690 980" stroke="rgba(255,255,255,0.3)" stroke-width="6" stroke-linecap="round" />
+      </g>
+    </svg>
+
+    <div id="pour-can"><img src="assets/can-front.webp" alt="Canette Mydrinkable ananas-gingembre" /></div>
+
+    <svg id="pour-stream-svg" viewBox="0 0 1080 1920" data-layout-ignore>
+      <path id="pour-stream" d="" fill="none" stroke="url(#pour-juice)" stroke-width="30" stroke-linecap="round" />
+      <path
+        id="pour-stream-hi"
+        d=""
+        fill="none"
+        stroke="#fff3b0"
+        stroke-width="7"
+        stroke-linecap="round"
+        stroke-dasharray="40 70"
+        opacity="0.8"
+      />
+      <g id="pour-splash"></g>
+    </svg>
+    </div>
+
+    <div id="pour-l1" class="pour-line clip" data-start="1.2" data-duration="3.6">
+      <span id="pour-l1-in"><b>✓</b>Sans colorant.</span>
+    </div>
+    <div id="pour-l2" class="pour-line clip" data-start="1.55" data-duration="3.25">
+      <span id="pour-l2-in"><b>✓</b>Sans conservateur.</span>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var NS = "http://www.w3.org/2000/svg";
+      var LIP = { x: 557, y: 681 }; // lowest point of the can's mouth while pouring
+      var FLOOR = 1272; // inside bottom of the glass
+      var FULL = 905; // liquid surface when full
+
+      function mulberry32(a) {
+        return function () {
+          a |= 0;
+          a = (a + 0x6d2b79f5) | 0;
+          var t = Math.imul(a ^ (a >>> 15), 1 | a);
+          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+      var rand = mulberry32(42);
+      var bubbleG = document.getElementById("pour-bubbles");
+      var bubbles = [];
+      for (var i = 0; i < 34; i++) {
+        var c = document.createElementNS(NS, "circle");
+        c.setAttribute("r", (2 + rand() * 5).toFixed(1));
+        c.setAttribute("fill", "rgba(255,250,215,0.75)");
+        bubbleG.appendChild(c);
+        bubbles.push({ el: c, x: 380 + rand() * 320, phase: rand(), speed: 120 + rand() * 160, wob: rand() * 6.28 });
+      }
+      var splashG = document.getElementById("pour-splash");
+      var splash = [];
+      for (var j = 0; j < 10; j++) {
+        var s = document.createElementNS(NS, "circle");
+        s.setAttribute("r", (3 + rand() * 6).toFixed(1));
+        s.setAttribute("fill", "#ffe066");
+        splashG.appendChild(s);
+        splash.push({ el: s, dx: (rand() - 0.5) * 120, h: 30 + rand() * 50, phase: rand() });
+      }
+
+      var liquid = document.getElementById("pour-liquid");
+      var foam = document.getElementById("pour-foam");
+      var stream = document.getElementById("pour-stream");
+      var streamHi = document.getElementById("pour-stream-hi");
+
+      function clamp(v, a, b) {
+        return Math.max(a, Math.min(b, v));
+      }
+      function ease(p) {
+        return 1 - Math.pow(1 - p, 1.6);
+      }
+
+      function render(t) {
+        // Liquid level: fills from 1.15 s to 3.95 s.
+        var fill = ease(clamp((t - 1.15) / 2.8, 0, 1));
+        var surf = FLOOR - (FLOOR - FULL) * fill;
+        liquid.setAttribute("y", surf.toFixed(1));
+        liquid.setAttribute("height", (FLOOR - surf + 4).toFixed(1));
+        foam.setAttribute("cy", surf.toFixed(1));
+        foam.setAttribute("opacity", fill > 0.02 ? "0.9" : "0");
+        var halfW = 170 + (1 - (surf - 826) / 446) * 18;
+        foam.setAttribute("rx", halfW.toFixed(1));
+
+        // Stream: head falls from the lip from 1.0 s, tail leaves at 3.8 s.
+        var head = clamp((t - 1.0) / 0.22, 0, 1);
+        var tail = clamp((t - 3.8) / 0.25, 0, 1);
+        var yTop = LIP.y + (surf - LIP.y) * tail * tail;
+        var yBot = LIP.y + (surf - LIP.y) * head * head;
+        if (head <= 0 || tail >= 1 || yBot - yTop < 2) {
+          stream.setAttribute("d", "");
+          streamHi.setAttribute("d", "");
+        } else {
+          var pts = [];
+          for (var k = 0; k <= 12; k++) {
+            var y = yTop + ((yBot - yTop) * k) / 12;
+            var q = (y - LIP.y) / Math.max(1, surf - LIP.y);
+            var x = LIP.x - 24 * Math.sqrt(clamp(q, 0, 1)) + Math.sin(t * 9 + q * 6) * 2.5;
+            pts.push((k === 0 ? "M" : "L") + x.toFixed(1) + " " + y.toFixed(1));
+          }
+          var d = pts.join(" ");
+          stream.setAttribute("d", d);
+          streamHi.setAttribute("d", d);
+          streamHi.setAttribute("stroke-dashoffset", (-t * 900).toFixed(1));
+        }
+        var pouring = head >= 1 && tail < 0.6;
+
+        // Splash at the impact point.
+        splash.forEach(function (p) {
+          if (!pouring) {
+            p.el.setAttribute("opacity", "0");
+            return;
+          }
+          var ph = (t * 2.6 + p.phase) % 1;
+          var x = LIP.x - 24 + p.dx * ph;
+          var y = surf - p.h * 4 * ph * (1 - ph);
+          p.el.setAttribute("cx", x.toFixed(1));
+          p.el.setAttribute("cy", y.toFixed(1));
+          p.el.setAttribute("opacity", (1 - ph).toFixed(2));
+        });
+
+        // Bubbles rise through whatever juice is in the glass.
+        var depth = FLOOR - surf;
+        bubbles.forEach(function (b) {
+          if (depth < 20) {
+            b.el.setAttribute("opacity", "0");
+            return;
+          }
+          var travel = (b.phase * depth + t * b.speed) % depth;
+          var y = FLOOR - 6 - travel;
+          var x = b.x + Math.sin(t * 3 + b.wob) * 4;
+          b.el.setAttribute("cx", x.toFixed(1));
+          b.el.setAttribute("cy", y.toFixed(1));
+          b.el.setAttribute("opacity", "1");
+        });
+      }
+
+      var clock = { t: 0 };
+      var tl = gsap.timeline({ paused: true });
+      tl.fromTo(
+        clock,
+        { t: 0 },
+        {
+          t: 5.2,
+          duration: 5.2,
+          ease: "none",
+          onUpdate: function () {
+            render(clock.t);
+          },
+        },
+        0,
+      );
+      render(0);
+
+      // Glass rises into place.
+      tl.fromTo("#pour-glass", { y: 700 }, { y: 0, duration: 0.6, ease: "power3.out" }, 0.05);
+
+      // Can arrives from the top right already tipping, then pours.
+      tl.fromTo(
+        "#pour-can",
+        { x: 520, y: -820, rotation: -40 },
+        { x: 0, y: 0, rotation: -96, duration: 0.65, ease: "power3.out" },
+        0,
+      );
+      tl.to("#pour-can", { rotation: -125, duration: 0.45, ease: "power2.inOut" }, 0.65);
+      tl.to("#pour-can", { rotation: -132, duration: 2.6, ease: "sine.inOut" }, 1.1);
+      // Tilts back and leaves upward.
+      tl.to("#pour-can", { rotation: -78, duration: 0.4, ease: "power2.inOut" }, 3.75);
+      tl.to("#pour-can", { x: 420, y: -900, rotation: -40, duration: 0.5, ease: "power3.in" }, 4.15);
+
+      // Claims.
+      tl.fromTo(
+        "#pour-l1-in",
+        { x: -80, opacity: 0, filter: "blur(8px)" },
+        { x: 0, opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "power4.out" },
+        1.2,
+      );
+      tl.fromTo(
+        "#pour-l2-in",
+        { x: -80, opacity: 0, filter: "blur(8px)" },
+        { x: 0, opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "power4.out" },
+        1.55,
+      );
+      tl.to(["#pour-l1-in", "#pour-l2-in"], { y: -60, opacity: 0, filter: "blur(8px)", duration: 0.3, ease: "power2.in", stagger: 0.05 }, 4.3);
+
+      window.__timelines["pour"] = tl;
+    })();
+  </script>
+</template>
