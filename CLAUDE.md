@@ -102,6 +102,16 @@ skills/                 → AI agent skill definitions
 - **Deterministic rendering**: No `Date.now()`, no unseeded `Math.random()`, no render-time network fetches.
 - **Docs ship with the change**: a PR that adds or changes a CLI command, flag, or user-visible behavior updates `docs/` in the same PR. A new command also goes in "Find your command" in `docs/packages/cli.mdx` (CI checks it).
 
+## Delegation to subagents
+
+Standing rule from the repo owner: **gathering is delegated, thinking is not.**
+
+- **Delegate collection** — finding files, symbols or strings, reading and quoting code or docs, extracting values, tracing call paths, gathering evidence from several sources. This standing rule is the user's explicit request to spawn these subagents for that work.
+  - `quick-researcher` (Haiku): simple lookups and verbatim text extraction.
+  - `code-reader` (Sonnet): reading code across files/packages and cross-checking sources (code vs docs, skills, tests, git history).
+- **Keep for yourself** — reasoning, summarizing, synthesizing, drawing conclusions, deciding, planning, and writing or editing code. Subagents return raw evidence (`path:line` + quotes); you do the analysis and the final answer.
+- Exception: a single known file or one obvious `Grep` can be done directly; spawning costs more than it saves.
+
 ## Documentation
 
 - Docs: https://hyperframes.heygen.com/introduction
